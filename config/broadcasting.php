@@ -50,7 +50,7 @@ return [
 
         'ably' => [
             'driver' => 'ably',
-            'key' => env('ABLY_KEY'),
+            'key' => env('ABLY_API_KEY'),
         ],
 
         'redis' => [

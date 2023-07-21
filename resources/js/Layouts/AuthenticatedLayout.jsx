@@ -1,16 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
 import { ToastContainer } from "react-toastify";
+import Badge from "@mui/material/Badge";
+import axios from "axios";
 
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
+
+    const [unreadMessageCount, setUnreadMessageCount] = useState(0);
+
+    useEffect(() => {
+        const fetchUnreadMessageCount = async () => {
+            try {
+                const response = await axios.get("/fetch-user-data");
+                const { unread_messages: unreadCount } = response.data;
+                setUnreadMessageCount(unreadCount);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchUnreadMessageCount();
+    }, []);
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -35,6 +53,18 @@ export default function Authenticated({ user, header, children }) {
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ml-6">
+                            <NavLink
+                                href={route("messages.index")}
+                                active={route().current("messages.index")}
+                            >
+                                <Badge
+                                    badgeContent={unreadMessageCount}
+                                    variant="dot"
+                                    color="primary"
+                                >
+                                    Messages
+                                </Badge>
+                            </NavLink>
                             <div className="ml-3 relative">
                                 <Dropdown>
                                     <Dropdown.Trigger>

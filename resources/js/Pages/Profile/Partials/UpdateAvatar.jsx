@@ -102,7 +102,7 @@ export default function UpdateProfileInformation({ className }) {
             <div className="flex items-center justify-center mt-4">
                 {user.avatar && (
                     <img
-                        src={`${window.location.origin}/storage/${user.avatar}`}
+                        src={`${window.location.origin}/storage/avatars/${user.avatar}`}
                         alt="User Avatar"
                         className="rounded-full w-64 h-64 object-cover"
                     />

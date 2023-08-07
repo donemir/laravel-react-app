@@ -62,12 +62,12 @@ class ProfileController extends Controller
             // Replace any spaces with '+' in the base64 data
             $image = str_replace(' ', '+', $data);
             
-            // Decode the base64 data and store it as an image file
-            Storage::disk('public')->put($imageName, base64_decode($image));
+            // Decode the base64 data and store it as an image file in the avatars folder
+            Storage::disk('public')->put('avatars/' . $imageName, base64_decode($image));
             
             // Delete previous avatar if it exists
             if ($user->avatar) {
-                Storage::disk('public')->delete($user->avatar);
+                Storage::disk('public')->delete('avatars/' . $user->avatar);
             }
             
             // Update the user's avatar
